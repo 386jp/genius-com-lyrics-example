@@ -6,15 +6,23 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-#%%
-os.getenv('GENIUS_API_TOKEN')
+genius = lyricsgenius.Genius(os.getenv('GENIUS_API_TOKEN'))
 
 #%%
-genius = lyricsgenius.Genius(os.getenv('GENIUS_API_TOKEN'))
+artists = ['Perfume']
+for aName in artists:
+    print(aName)
+    artist = genius.search_artist(aName)
+    artist.save_lyrics()
+
 #%%
-artist = genius.search_artist("Perfume", max_songs=3, sort="title")
-print(artist.songs)
+import json
+
 #%%
-song = artist.song("1mm")
-print(song.lyrics)
+with open('./Lyrics_Perfume.json') as f:
+    data = json.load(f)
+    
 #%%
+for song in data['songs']:
+    print(song['title'])
+    print(song['lyrics'])
